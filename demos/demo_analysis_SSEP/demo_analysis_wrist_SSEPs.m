@@ -2,8 +2,8 @@
 % startup_bbci_toolbox('DataDir', './data/', 'TmpDir','./tmp/');
 %
 % Load EEG data for analysis
-eeg_file= fullfile(BTB.DataDir, 'bbciMat', 'VPoey_19_07_19_2_625', ...
-                   '2019_BCIPJ_SEP_B6_5_wrist_rVPoey.mat');
+eeg_file= fullfile(BTB.DataDir, 'bbciMat', 'VPody_19_07_10_1250', ...
+                   '2019_BCIPJ_SEP_A1_R_1_wrist_rVPody.mat');
 try
     [cnt, mrk, mnt]= file_loadMatlab(eeg_file);
 catch

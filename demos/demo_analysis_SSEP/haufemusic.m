@@ -27,6 +27,7 @@ function [s,vmax,imax,dip_mom,dip_loc]=haufemusic(patt,V,para)
 %
 %
 
+
 [nchan,nx]=size(patt);
 [nchan,ng,ndum]=size(V);
 
@@ -45,6 +46,7 @@ end
 [nchan nchan_old] = size(H);
 
 V = reshape(H*reshape(V, nchan_old, ng*ndum), nchan, ng, ndum);
+
 patt = H*patt;
 
 if nx > 1

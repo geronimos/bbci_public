@@ -8,8 +8,14 @@ BTB.MatDir = fullfile(BTB.DataDir, 'bbciMat');
 % subdir_list = {'VPodv_19_06_04'}; %reorder needed
 % subdir_list = {'VPodw_19_06_11'}; %reorder needed
 % subdir_list = {'VPodx_19_07_02'};
-subdir_list = {'VPody_19_07_10'};
-% subdir_list = {'VPodz_19_07_11'};
+%subdir_list = {'19_07_10_RA'};
+%subdir_list = {'19_07_11_GA'};
+%subdir_list = {'19_07_14_MA'};
+%subdir_list = {'19_07_16_RB'};
+%subdir_list = {'19_07_18_TA'};
+%subdir_list = {'19_07_19_GB'};
+%subdir_list = {'19_07_19_TB'};
+subdir_list = {'19_07_25_MB'};
 reorder = 0;
 
 % Files to convert into .mat
@@ -21,11 +27,10 @@ Fs = 1250; % new sampling rate
 % Definition of classes based on markers
 stimDef= {[31:46], [11:26]; 'target', 'nontarget'};
 
-
 % Load raw files (with filtering), define classes and montage,
 % and save data in matlab format
-for k= 1:length(subdir_list);
-    for ib= 1:length(basename_list),
+for k= 1:length(subdir_list)
+    for ib= 1:length(basename_list)
         subdir= subdir_list{k};
         sbj= subdir(1:find(subdir=='_',1,'first')-1);
         %   file= fullfile(subdir, [basename_list{ib} sbj]);
@@ -48,9 +53,9 @@ for k= 1:length(subdir_list);
             cnt.clab{util_chanind(cnt.clab,'PO10')} = 'AF8';
         end
         % Re-referencing to linked-mastoids
-        %   (data was referenced to A2 during acquisition)
+        %   (data was referenced to T10 during acquisition)
         A = eye(length(cnt.clab));
-        iref2 = util_chanind(cnt.clab, 'A2');
+        iref2 = util_chanind(cnt.clab, 'T8');
         A(iref2,:) = -0.5;
         A(:,iref2) = [];
         cnt = proc_linearDerivation(cnt, A);
