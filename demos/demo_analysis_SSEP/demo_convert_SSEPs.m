@@ -9,13 +9,13 @@ BTB.MatDir = fullfile(BTB.DataDir, 'bbciMat');
 % subdir_list = {'VPodw_19_06_11'}; %reorder needed
 % subdir_list = {'VPodx_19_07_02'};
 %subdir_list = {'19_07_10_RA'};
-%subdir_list = {'19_07_11_GA'};
+subdir_list = {'19_07_11_GA'};
 %subdir_list = {'19_07_14_MA'};
 %subdir_list = {'19_07_16_RB'};
 %subdir_list = {'19_07_18_TA'};
 %subdir_list = {'19_07_19_GB'};
 %subdir_list = {'19_07_19_TB'};
-subdir_list = {'19_07_25_MB'};
+%subdir_list = {'19_07_25_MB'};
 reorder = 0;
 
 % Files to convert into .mat

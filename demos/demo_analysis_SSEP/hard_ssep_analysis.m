@@ -8,7 +8,7 @@ end
 
 % Define some settings
 disp_ival= [-100 50];   % plot ival
-ref_ival= [-100 0];     % baseline correction
+ref_ival= [-50 -5];     % baseline correction
 crit_maxmin= 75;        % artefact rejection
 crit_ival= [10 50];     % artefact rejection
 crit_clab= {'F9,z,10','AF3,4'}; % artefact rejection
@@ -16,6 +16,9 @@ colOrder= [1 0 1; 0.4 0.4 0.4]; % ival color
 
 % Apply highpass filter to reduce drifts
 b= procutil_firlsFilter(3, cnt.fs);
+cnt= proc_filtfilt(cnt, b);
+
+b= procutil_firlsFilter(100, cnt.fs, 'Lowpass',1);
 cnt= proc_filtfilt(cnt, b);
 
 % Artifact rejection based on variance criterion
@@ -34,8 +37,8 @@ epo= proc_segmentation(cnt, mrk, disp_ival);
 epo = proc_baseline(epo, ref_ival);
 
 % Cut epo to only plot from t=0
-epo.x = epo.x(120:end,:,:);
-epo.t = epo.t(120:end);
+epo.x = epo.x(130:end,:,:);
+epo.t = epo.t(130:end);
 
 % get ival
 selec_pot = epo.x(epo.t > search_ival(1) & epo.t < search_ival(2), ...

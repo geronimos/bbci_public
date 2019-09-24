@@ -15,7 +15,7 @@ crit_maxmin= 75;        % artefact rejection
 crit_ival= [10 50];     % artefact rejection
 crit_clab= {'F9,z,10','AF3,4'}; % artefact rejection
 colOrder= [1 0 1; 0.4 0.4 0.4]; % ival color
-epos = struct(n);
+
 for i = 1:n
     eeg_file= fullfile(folders(i), names(i));
     try
@@ -32,22 +32,24 @@ for i = 1:n
     mrk= reject_varEventsAndChannels(cnt, mrk, disp_ival, 'verbose', 1);
 
     % Segmentation
-    epo= proc_segmentation(cnt, mrk, disp_ival);
+    epo(i)= proc_segmentation(cnt, mrk, disp_ival);
 
     % Artifact rejection based on maxmin difference criterion on frontal chans
-    [epo, iArte] = proc_rejectArtifactsMaxMin(epo, crit_maxmin, ...
+    [epo(i), iArte] = proc_rejectArtifactsMaxMin(epo(i), crit_maxmin, ...
         'Clab',crit_clab, ...
         'Ival',crit_ival, ...
         'Verbose',1);
 
     % Baseline subtraction, and calculation of a measure of discriminability
-    epo = proc_baseline(epo, ref_ival);
+    epo(i) = proc_baseline(epo(i), ref_ival);
+    
+    % Cut epo to only plot from t=0
+    epo.x = epo.x(120:end,:,:);
+    epo.t = epo.t(120:end);
 end
 
 
-% Cut epo to only plot from t=0
-epo.x = epo.x(120:end,:,:);
-epo.t = epo.t(120:end);
+%% Analyze Mean Epo
 
 % get ival
 selec_pot = epo.x(epo.t > search_ival(1) & epo.t < search_ival(2), ...

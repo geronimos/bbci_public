@@ -5,8 +5,8 @@ startup_bbci_toolbox('DataDir',datadir , 'TmpDir',tmpdir);
 
 
 %% right wrist median nerve analysis
-stimloc = 'wrist_r_Pz';
-filepaths = dir(fullfile(BTB.MatDir, '19_07_*', '2019_BCIPJ*_wrist_r*.mat'));
+stimloc = [datadir 'bbciPlot/PzCz_tp100'];
+filepaths = dir(fullfile(BTB.MatDir, '19_07*', '2019_BCIPJ*_wrist_r*.mat'));
 folders = {filepaths.folder};
 names = {filepaths.name};
 clab = {'Pz'};
@@ -25,7 +25,7 @@ ival_tbl(:,2:3) = num2cell(ivals);
 writetable(cell2table(ival_tbl), [stimloc '/' 'ivals.csv'])
 
 %% left wrist median nerve analysis
-stimloc = 'wrist_l_Pz';
+stimloc = [datadir 'bbciPlot/PzCz_hardconstraint/wrist_l_Pz'];
 filepaths = dir(fullfile(BTB.MatDir, '19_07_*', '2019_BCIPJ*_wrist_l*.mat'));
 folders = {filepaths.folder};
 names = {filepaths.name};
@@ -45,8 +45,8 @@ ival_tbl(:,2:3) = num2cell(ivals);
 writetable(cell2table(ival_tbl), [stimloc '/' 'ivals.csv'])
 
 %% right foot nervus tibialis analysis
-stimloc = 'foot_r_Cz';
-filepaths = dir(fullfile(BTB.MatDir, '19_07_*', '2019_BCIPJ*_foot_r*.mat'));
+stimloc = [datadir 'bbciPlot/PzCz_hardconstraint/foot_r_Cz'];
+filepaths = dir(fullfile(BTB.MatDir, '19_07*', '2019_BCIPJ*_foot_r*.mat'));
 folders = {filepaths.folder};
 names = {filepaths.name};
 clab = {'Cz'};
@@ -66,8 +66,8 @@ writetable(cell2table(ival_tbl), [stimloc '/' 'ivals.csv'])
 
 
 %% right pinky finger analysis
-stimloc = 'pinkyfinger_r_Pz';
-filepaths = dir(fullfile(BTB.MatDir, '19_07_*', '2019_BCIPJ*pinkiefinger_r*.mat'));
+stimloc = [datadir 'bbciPlot/PzCz_hardconstraint/pinkyfinger_r_Pz'];
+filepaths = dir(fullfile(BTB.MatDir, '19_07*', '2019_BCIPJ*pinkiefinger_r*.mat'));
 folders = {filepaths.folder};
 names = {filepaths.name};
 clab = {'Pz'};
@@ -87,8 +87,8 @@ writetable(cell2table(ival_tbl), [stimloc '/' 'ivals.csv'])
 
 
 %% right index finger analysis
-stimloc = 'idxfinger_r_Pz';
-filepaths = dir(fullfile(BTB.MatDir, '19_07_*', '2019_BCIPJ*idxfinder_r*.mat'));
+stimloc = [datadir 'bbciPlot/PzCz_hardconstraint/idxfinger_r_Pz'];
+filepaths = dir(fullfile(BTB.MatDir, '19_07*', '2019_BCIPJ*idxfinder_r*.mat'));
 folders = {filepaths.folder};
 names = {filepaths.name};
 clab = {'Pz'};
