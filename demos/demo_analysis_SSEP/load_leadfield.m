@@ -68,6 +68,6 @@ leadfield = leadfield(Lia,:,:);
 leadfield = leadfield(Locb2,:,:);
 
 %% MUSIC
-time = 152
-patt = epo.x(time,:)'
+time = 152;
+patt = epo.x(time,:)';
 [s,vmax,imax,dip_mom,dip_loc]=haufemusic(patt,leadfield,gridpos);

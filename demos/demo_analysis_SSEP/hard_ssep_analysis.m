@@ -8,7 +8,7 @@ end
 
 % Define some settings
 disp_ival= [-100 50];   % plot ival
-ref_ival= [-50 -5];     % baseline correction
+ref_ival= [-70 -5];     % baseline correction
 crit_maxmin= 75;        % artefact rejection
 crit_ival= [10 50];     % artefact rejection
 crit_clab= {'F9,z,10','AF3,4'}; % artefact rejection
@@ -18,7 +18,8 @@ colOrder= [1 0 1; 0.4 0.4 0.4]; % ival color
 b= procutil_firlsFilter(3, cnt.fs);
 cnt= proc_filtfilt(cnt, b);
 
-b= procutil_firlsFilter(100, cnt.fs, 'Lowpass',1);
+% Apply lowpass filter to reduce noise
+b= procutil_firlsFilter(200, cnt.fs, 'Lowpass',1);
 cnt= proc_filtfilt(cnt, b);
 
 % Artifact rejection based on variance criterion
@@ -53,7 +54,7 @@ if sign == -1
     [val, idx] = min(selec_pot_trial_mean);
 end
 
-ival_scalps = [epo.t(min_idx + idx - 1), epo.t(min_idx + idx + 1)];
+ival_scalps = [epo.t(min_idx + idx - 1), epo.t(min_idx + idx - 1)];
 
 ival_scalps_plt= visutil_correctIvalsForDisplay(ival_scalps, 'Fs', epo.fs);
 

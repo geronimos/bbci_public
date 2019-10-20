@@ -1,107 +1,110 @@
+clc
 %% start toolbox
 datadir = '/Users/geronimobergk/TUcloud/1_MSc_Elektrotechnik/1_SS19/1_BCI-PJ/data/';
 tmpdir = '/Users/geronimobergk/TUcloud/1_MSc_Elektrotechnik/1_SS19/1_BCI-PJ/tmp/';
 startup_bbci_toolbox('DataDir',datadir , 'TmpDir',tmpdir);
 
+% analyze all subjects from m to M
+m = 1;
+M = 8;
 
 %% right wrist median nerve analysis
-stimloc = [datadir 'bbciPlot/PzCz_tp100'];
-filepaths = dir(fullfile(BTB.MatDir, '19_07*', '2019_BCIPJ*_wrist_r*.mat'));
+stimloc = [datadir 'bbciPlot/PzCz_TP200_baseline70'];
+filepaths = dir(fullfile(BTB.MatDir, '19_07*', '*wrist_r.mat'));
 folders = {filepaths.folder};
 names = {filepaths.name};
 clab = {'Pz'};
-search_ival = [15 23];
+search_ivals = [15 20; 16 20; 18 23; 18 22; 15 22; 18 22; 18 22; 19 24];
 sign = -1;
 n = length(filepaths);
 ivals = zeros(n,2);
-for i = 1:n
+for i = m:M
     eeg_file= fullfile(folders(i), names(i));
-    ivals(i,:) = hard_ssep_analysis(eeg_file, clab, search_ival, stimloc, sign);
+    ivals(i,:) = hard_ssep_analysis(eeg_file, clab, search_ivals(i,:), stimloc, sign);
 end
 % write erp_topo info to csv file
 ival_tbl = cell(n,3);
 ival_tbl(:,1) = names;
 ival_tbl(:,2:3) = num2cell(ivals);
-writetable(cell2table(ival_tbl), [stimloc '/' 'ivals.csv'])
+writetable(cell2table(ival_tbl), [stimloc '/' 'ivals_wrist_r.csv'])
 
 %% left wrist median nerve analysis
-stimloc = [datadir 'bbciPlot/PzCz_hardconstraint/wrist_l_Pz'];
-filepaths = dir(fullfile(BTB.MatDir, '19_07_*', '2019_BCIPJ*_wrist_l*.mat'));
+stimloc = [datadir 'bbciPlot/PzCz_TP200_baseline70'];
+filepaths = dir(fullfile(BTB.MatDir, '19_07_*', '*wrist_l.mat'));
 folders = {filepaths.folder};
 names = {filepaths.name};
 clab = {'Pz'};
-search_ival = [15 23];
+search_ivals = [15 20; 15 20; 21 26; 15 20; 20 25; 18 22; 20 26; 20 25];
 sign = -1;
 n = length(filepaths);
 ivals = zeros(n,2);
-for i = 1:n
+for i = m:M
     eeg_file= fullfile(folders(i), names(i));
-    ivals(i,:) = hard_ssep_analysis(eeg_file, clab, search_ival, stimloc, sign);
+    ivals(i,:) = hard_ssep_analysis(eeg_file, clab, search_ivals(i,:), stimloc, sign);
 end
 % write erp_topo info to csv file
 ival_tbl = cell(n,3);
 ival_tbl(:,1) = names;
 ival_tbl(:,2:3) = num2cell(ivals);
-writetable(cell2table(ival_tbl), [stimloc '/' 'ivals.csv'])
+writetable(cell2table(ival_tbl), [stimloc '/' 'ivals_wrist_l.csv'])
 
+%% right index finger analysis
+stimloc = [datadir 'bbciPlot/PzCz_TP200_baseline70'];
+filepaths = dir(fullfile(BTB.MatDir, '19_07*', '*idxfinger_r.mat'));
+folders = {filepaths.folder};
+names = {filepaths.name};
+clab = {'Pz'};
+search_ivals = [25 30; 20 25; 20 25; 20 25; 20 25; 20 25; 15 20; 25 30];
+sign = -1;
+n = length(filepaths);
+ivals = zeros(n,2);
+for i = m:M
+    eeg_file= fullfile(folders(i), names(i));
+    ivals(i,:) = hard_ssep_analysis(eeg_file, clab, search_ivals(i,:), stimloc, sign);
+end
+% write erp_topo info to csv file
+ival_tbl = cell(n,3);
+ival_tbl(:,1) = names;
+ival_tbl(:,2:3) = num2cell(ivals);
+writetable(cell2table(ival_tbl), [stimloc '/' 'ivals_idxfinger_r.csv'])
+ 
 %% right foot nervus tibialis analysis
-stimloc = [datadir 'bbciPlot/PzCz_hardconstraint/foot_r_Cz'];
-filepaths = dir(fullfile(BTB.MatDir, '19_07*', '2019_BCIPJ*_foot_r*.mat'));
+stimloc = [datadir 'bbciPlot/PzCz_TP200_baseline70'];
+filepaths = dir(fullfile(BTB.MatDir, '19_07*', '*foot_r.mat'));
 folders = {filepaths.folder};
 names = {filepaths.name};
 clab = {'Cz'};
-search_ival = [35 45];
+search_ivals = [33 37; 32 36; 30 35; 35 38; 35 40; 40 45; 35 40; 35 40];
 sign = 1;
 n = length(filepaths);
 ivals = zeros(n,2);
-for i = 1:n
+for i = m:M
     eeg_file= fullfile(folders(i), names(i));
-    ivals(i,:) = hard_ssep_analysis(eeg_file, clab, search_ival, stimloc, sign);
+    ivals(i,:) = hard_ssep_analysis(eeg_file, clab, search_ivals(i,:), stimloc, sign);
 end
 % write erp_topo info to csv file
 ival_tbl = cell(n,3);
 ival_tbl(:,1) = names;
 ival_tbl(:,2:3) = num2cell(ivals);
-writetable(cell2table(ival_tbl), [stimloc '/' 'ivals.csv'])
+writetable(cell2table(ival_tbl), [stimloc '/' 'ivals_foot_r.csv'])
 
 
 %% right pinky finger analysis
-stimloc = [datadir 'bbciPlot/PzCz_hardconstraint/pinkyfinger_r_Pz'];
-filepaths = dir(fullfile(BTB.MatDir, '19_07*', '2019_BCIPJ*pinkiefinger_r*.mat'));
+stimloc = [datadir 'bbciPlot/PzCz_TP200_baseline70'];
+filepaths = dir(fullfile(BTB.MatDir, '19_07*', '*pinkiefinger_r.mat'));
 folders = {filepaths.folder};
 names = {filepaths.name};
 clab = {'Pz'};
-search_ival = [15 23];
+search_ivals = [20 25; 20 25; 20 25; 23 27; 17 25; 25 30; 25 30; 15 20];
 sign = -1;
 n = length(filepaths);
 ivals = zeros(n,2);
-for i = 1:n
+for i = m:M
     eeg_file= fullfile(folders(i), names(i));
-    ivals(i,:) = hard_ssep_analysis(eeg_file, clab, search_ival, stimloc, sign);
+    ivals(i,:) = hard_ssep_analysis(eeg_file, clab, search_ivals(i,:), stimloc, sign);
 end
 % write erp_topo info to csv file
 ival_tbl = cell(n,3);
 ival_tbl(:,1) = names;
 ival_tbl(:,2:3) = num2cell(ivals);
-writetable(cell2table(ival_tbl), [stimloc '/' 'ivals.csv'])
-
-
-%% right index finger analysis
-stimloc = [datadir 'bbciPlot/PzCz_hardconstraint/idxfinger_r_Pz'];
-filepaths = dir(fullfile(BTB.MatDir, '19_07*', '2019_BCIPJ*idxfinder_r*.mat'));
-folders = {filepaths.folder};
-names = {filepaths.name};
-clab = {'Pz'};
-search_ival = [15 23];
-sign = -1;
-n = length(filepaths);
-ivals = zeros(n,2);
-for i = 1:n
-    eeg_file= fullfile(folders(i), names(i));
-    ivals(i,:) = hard_ssep_analysis(eeg_file, clab, search_ival, stimloc, sign);
-end
-% write erp_topo info to csv file
-ival_tbl = cell(n,3);
-ival_tbl(:,1) = names;
-ival_tbl(:,2:3) = num2cell(ivals);
-writetable(cell2table(ival_tbl), [stimloc '/' 'ivals.csv'])
+writetable(cell2table(ival_tbl), [stimloc '/' 'ivals_pinkiefinger_r.csv'])
