@@ -9,12 +9,12 @@ m = 1;
 M = 8;
 
 %% right wrist median nerve analysis
-stimloc = [datadir 'bbciPlot/PzCz_TP200_baseline70'];
+stimloc = [datadir 'bbciPlot/CP34CPz_TP200_baseline70'];
 filepaths = dir(fullfile(BTB.MatDir, '19_07*', '*wrist_r.mat'));
 folders = {filepaths.folder};
 names = {filepaths.name};
-clab = {'Pz'};
-search_ivals = [15 20; 16 20; 18 23; 18 22; 15 22; 18 22; 18 22; 19 24];
+clab = {'CP3'};
+search_ivals = [15 20; 16 20; 18 23; 18 22; 18 22; 18 22; 18 22; 19 24];
 sign = -1;
 n = length(filepaths);
 ivals = zeros(n,2);
@@ -29,12 +29,12 @@ ival_tbl(:,2:3) = num2cell(ivals);
 writetable(cell2table(ival_tbl), [stimloc '/' 'ivals_wrist_r.csv'])
 
 %% left wrist median nerve analysis
-stimloc = [datadir 'bbciPlot/PzCz_TP200_baseline70'];
+stimloc = [datadir 'bbciPlot/CP34CPz_TP200_baseline70'];
 filepaths = dir(fullfile(BTB.MatDir, '19_07_*', '*wrist_l.mat'));
 folders = {filepaths.folder};
 names = {filepaths.name};
-clab = {'Pz'};
-search_ivals = [15 20; 15 20; 21 26; 15 20; 20 25; 18 22; 20 26; 20 25];
+clab = {'CP4'};
+search_ivals = [15 20; 15 20; 18 26; 15 20; 18 25; 18 22; 20 26; 20 25];
 sign = -1;
 n = length(filepaths);
 ivals = zeros(n,2);
@@ -49,11 +49,11 @@ ival_tbl(:,2:3) = num2cell(ivals);
 writetable(cell2table(ival_tbl), [stimloc '/' 'ivals_wrist_l.csv'])
 
 %% right index finger analysis
-stimloc = [datadir 'bbciPlot/PzCz_TP200_baseline70'];
+stimloc = [datadir 'bbciPlot/CP34CPz_TP200_baseline70'];
 filepaths = dir(fullfile(BTB.MatDir, '19_07*', '*idxfinger_r.mat'));
 folders = {filepaths.folder};
 names = {filepaths.name};
-clab = {'Pz'};
+clab = {'CP3'};
 search_ivals = [25 30; 20 25; 20 25; 20 25; 20 25; 20 25; 15 20; 25 30];
 sign = -1;
 n = length(filepaths);
@@ -69,12 +69,12 @@ ival_tbl(:,2:3) = num2cell(ivals);
 writetable(cell2table(ival_tbl), [stimloc '/' 'ivals_idxfinger_r.csv'])
  
 %% right foot nervus tibialis analysis
-stimloc = [datadir 'bbciPlot/PzCz_TP200_baseline70'];
+stimloc = [datadir 'bbciPlot/CP34CPz_TP200_baseline70'];
 filepaths = dir(fullfile(BTB.MatDir, '19_07*', '*foot_r.mat'));
 folders = {filepaths.folder};
 names = {filepaths.name};
-clab = {'Cz'};
-search_ivals = [33 37; 32 36; 30 35; 35 38; 35 40; 40 45; 35 40; 35 40];
+clab = {'CPz'};
+search_ivals = [33 40; 32 36; 30 35; 35 38; 35 40; 40 45; 35 40; 35 40];
 sign = 1;
 n = length(filepaths);
 ivals = zeros(n,2);
@@ -90,12 +90,12 @@ writetable(cell2table(ival_tbl), [stimloc '/' 'ivals_foot_r.csv'])
 
 
 %% right pinky finger analysis
-stimloc = [datadir 'bbciPlot/PzCz_TP200_baseline70'];
+stimloc = [datadir 'bbciPlot/CP34CPz_TP200_baseline70'];
 filepaths = dir(fullfile(BTB.MatDir, '19_07*', '*pinkiefinger_r.mat'));
 folders = {filepaths.folder};
 names = {filepaths.name};
-clab = {'Pz'};
-search_ivals = [20 25; 20 25; 20 25; 23 27; 17 25; 25 30; 25 30; 15 20];
+clab = {'CP3'};
+search_ivals = [25 30; 20 25; 20 25; 23 27; 17 25; 25 30; 25 30; 15 20];
 sign = -1;
 n = length(filepaths);
 ivals = zeros(n,2);
