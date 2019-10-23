@@ -29,6 +29,41 @@ for i = 1:numel(fields)
   wrist_r.(fields{i})(5) = {grid.gridpos(imax{1},:)}; % get dipole position
 end
 
-figure
-trisurf(cortexgrid.tri, cortexgrid.pos(:,1), cortexgrid.pos(:,2), ...
-    cortexgrid.pos(:,3), randi(255, size(cortexgrid.pos, 1), 1))
+%% left wrist
+% get dipole location
+fields = fieldnames(wrist_l);
+for i = 1:numel(fields)
+  imax = wrist_l.(fields{i})(3);
+  wrist_l.(fields{i})(5) = {grid.gridpos(imax{1},:)}; % get dipole position
+end
+
+%% idxfinger
+% get dipole location
+fields = fieldnames(idxfinger_r);
+for i = 1:numel(fields)
+  imax = idxfinger_r.(fields{i})(3);
+  idxfinger_r.(fields{i})(5) = {grid.gridpos(imax{1},:)}; % get dipole position
+end
+
+%% right foot
+% get dipole location
+fields = fieldnames(foot_r);
+for i = 1:numel(fields)
+  imax = foot_r.(fields{i})(3);
+  foot_r.(fields{i})(5) = {grid.gridpos(imax{1},:)}; % get dipole position
+end
+
+%% pinkie finger
+% get dipole location
+fields = fieldnames(pinkyfinger_r);
+for i = 1:numel(fields)
+  imax = pinkyfinger_r.(fields{i})(3);
+  pinkyfinger_r.(fields{i})(5) = {grid.gridpos(imax{1},:)}; % get dipole position
+end
+
+%% save data
+save([savematdir 'wrist_r_dipoles.mat'], 'wrist_r')
+save([savematdir 'wrist_l_dipoles.mat'], 'wrist_l')
+save([savematdir 'pinkyfinger_r_dipoles.mat'], 'pinkyfinger_r')
+save([savematdir 'idxfinger_r_dipoles.mat'], 'idxfinger_r')
+save([savematdir 'foot_r_dipoles.mat'], 'foot_r')
