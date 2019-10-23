@@ -1,4 +1,4 @@
-function [ival_scalps mnt epo] = hard_ssep_analysis_music(eeg_file, clab, search_ival, stimloc, sign)
+function [mnt, epo] = hard_ssep_analysis_music(eeg_file)
 
 try
     [cnt, mrk, mnt]= file_loadMatlab(eeg_file);
@@ -18,7 +18,7 @@ colOrder= [1 0 1; 0.4 0.4 0.4]; % ival color
 b= procutil_firlsFilter(3, cnt.fs);
 cnt= proc_filtfilt(cnt, b);
 
-b= procutil_firlsFilter(100, cnt.fs, 'Lowpass',1);
+b= procutil_firlsFilter(200, cnt.fs, 'Lowpass',1);
 cnt= proc_filtfilt(cnt, b);
 
 % Artifact rejection based on variance criterion
@@ -39,29 +39,6 @@ epo = proc_baseline(epo, ref_ival);
 % Cut epo to only plot from t=0
 epo.x = epo.x(130:end,:,:);
 epo.t = epo.t(130:end);
-
-% get ival
-selec_pot = epo.x(epo.t > search_ival(1) & epo.t < search_ival(2), ...
-    strcmp(epo.clab, clab), :);
-min_idx = find(epo.t > search_ival(1) & epo.t < search_ival(2), 1);
-
-selec_pot_trial_mean = mean(selec_pot, 3);
-if sign == 1
-    [val, idx] = max(selec_pot_trial_mean);
-end
-if sign == -1
-    [val, idx] = min(selec_pot_trial_mean);
-end
-
-ival_scalps = [epo.t(min_idx + idx - 1), epo.t(min_idx + idx + 1)];
-
-ival_scalps_plt= visutil_correctIvalsForDisplay(ival_scalps, 'Fs', epo.fs);
-
-[~, fname, ~] = fileparts(char(eeg_file));
-
-
-
-
 
 
 end

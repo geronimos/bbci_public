@@ -1,11 +1,12 @@
 function [leadfield, gridpos] = load_leadfield(mnt)
 %% Leadfield
-leadfield = load(['C:\Users\Timo\tubCloud\Shared\1_BCI-PJ' '\leadfield4shell1922eTPM_cortex3dim_Andy.mat']);
+datadir = '/Users/geronimobergk/TUcloud/1_MSc_Elektrotechnik/1_SS19/1_BCI-PJ/data/';
+leadfield = load([datadir 'leadfield4shell1922eTPM_cortex3dim_Andy.mat']);
 leadfield = leadfield.L;
 
-gridpos = load(['C:\Users\Timo\tubCloud\Shared\1_BCI-PJ' '\gridpos.mat']);
+gridpos = load([datadir 'gridpos.mat']);
 
-load(['C:\Users\Timo\tubCloud\Shared\1_BCI-PJ' '\elec_aligned_Andy_proj.mat']);
+load([datadir 'elec_aligned_Andy_proj.mat']);
 
 %Find a filter vector to throw out the unneccessary channels and then find
 %a sorting vector

@@ -1,24 +1,24 @@
+clc
+close all
+clear
 %% start toolbox
-datadir = 'C:\Users\Timo\tubCloud\Shared\1_BCI-PJ\data\';
+datadir = '/Users/geronimobergk/TUcloud/1_MSc_Elektrotechnik/1_SS19/1_BCI-PJ/data/';
 tmpdir = '/Users/geronimobergk/TUcloud/1_MSc_Elektrotechnik/1_SS19/1_BCI-PJ/tmp/';
-startup_bbci_toolbox('DataDir',datadir , 'TmpDir',tmpdir);
-ivaldir = 'C:\Users\Timo\tubCloud\Shared\1_BCI-PJ\bbciPlot\PzCz_TP200_baseline50';
-
+startup_bbci_toolbox('DataDir', datadir , 'TmpDir', tmpdir);
+ivaldir = [datadir 'bbciPlot/CP34CPz_TP200_baseline70/'];
+stimloc = [datadir 'bbciPlot/CP34CPz_TP200_baseline70_reconstruction'];
+savematdir = [datadir 'bbciMat/CP34CPz_TP200_baseline70/'];
 
 %% right wrist median nerve analysis
 wrist_r = struct();
-stimloc = [datadir 'bbciPlot/PzCz_tp100'];
-filepaths = dir(fullfile(BTB.MatDir, '19_07*', '2019_BCIPJ*_wrist_r*.mat'));
+filepaths = dir(fullfile(BTB.MatDir, '19_07*', '*wrist_r.mat'));
 folders = {filepaths.folder};
 names = {filepaths.name};
-clab = {'Pz'};
-search_ival = [15 23];
-sign = -1;
 n = length(filepaths);
-ivals = csvread('C:\Users\Timo\tubCloud\Shared\1_BCI-PJ\bbciPlot\PzCz_TP200_baseline50\ivals_wrist_r.csv', 1,1);
-for i = 1:n
+ivals = csvread([ivaldir 'ivals_wrist_r.csv'], 1,1);
+for i = 1:1
     eeg_file= fullfile(folders(i), names(i));
-    [ival_scalps mnt epo] = hard_ssep_analysis_music(eeg_file, clab, search_ival, stimloc, sign);
+    [mnt, epo] = hard_ssep_analysis_music(eeg_file);
     epo.t = round(epo.t,13);
     [leadfield, grid] = load_leadfield(mnt);
     tidx = find(epo.t==ivals(n,1));
@@ -27,68 +27,60 @@ for i = 1:n
 
     [s,vmax,imax,dip_mom,dip_loc]=haufemusic(patt,leadfield,grid);
     
-
-    
     fieldname = strjoin(names(i));
-    fieldname =  ['x' fieldname(16:end-4)];
+    fieldname =  fieldname(1:4);
     wrist_r.(fieldname) = {s,vmax,imax,dip_mom,dip_loc};
-
+    
+    figure
     plot_scalp(mnt, vmax);
-    saveas(gcf, [fieldname '_wrist_r' '.svg'])
+    print([ivaldir fieldname '_wrist_r'], '-depsc');
+    %saveas(gcf, [ivaldir fieldname '_wrist_r' '.eps'])
 end
 
-save('wrist_r_dipoles.mat', 'wrist_r')
+save([savematdir 'wrist_r_dipoles.mat'], 'wrist_r')
 
 
 %% left wrist median nerve analysis
 wrist_l = struct();
-stimloc = [datadir 'bbciPlot/PzCz_hardconstraint/wrist_l_Pz'];
-filepaths = dir(fullfile(BTB.MatDir, '19_07_*', '2019_BCIPJ*_wrist_l*.mat'));
+filepaths = dir(fullfile(BTB.MatDir, '19_07_*', '*wrist_l.mat'));
 folders = {filepaths.folder};
 names = {filepaths.name};
-clab = {'Pz'};
-search_ival = [15 23];
-sign = -1;
 n = length(filepaths);
-ivals = csvread('C:\Users\Timo\tubCloud\Shared\1_BCI-PJ\bbciPlot\PzCz_TP200_baseline50\ivals_wrist_l.csv', 1,1);
-
+ivals = csvread([ivaldir 'ivals_wrist_l.csv'], 1,1);
 
 for i = 1:n
     eeg_file= fullfile(folders(i), names(i));
-    [ival_scalps mnt epo] = hard_ssep_analysis_music(eeg_file, clab, search_ival, stimloc, sign);
-    epo.t = round(epo.t,13);
+    [mnt, epo] = hard_ssep_analysis_music(eeg_file);
+    epo.t = round(epo.t, 13);
     [leadfield, grid] = load_leadfield(mnt);
     tidx = find(epo.t==ivals(n,1));
     tidx2 = find(epo.t==ivals(n,2));
     patt = mean(mean(epo.x(tidx:tidx2,:,:),3),1)';
 
     [s,vmax,imax,dip_mom,dip_loc]=haufemusic(patt,leadfield,grid);
-   
-    
+       
     fieldname = strjoin(names(i));
-    fieldname =  ['x' fieldname(16:end-4)];
+    fieldname =  fieldname(1:4);
     wrist_l.(fieldname) = {s,vmax,imax,dip_mom,dip_loc};
 
+    figure
     plot_scalp(mnt, vmax);
-    saveas(gcf, [fieldname '_wrist_l' '.svg'])
+    print([ivaldir fieldname '_wrist_l'], '-depsc');
+    %saveas(gcf, [fieldname '_wrist_l' '.svg'])
 end
 
-save('wrist_l_dipoles.mat', 'wrist_l')
+save([savematdir 'wrist_l_dipoles.mat'], 'wrist_l')
 
 %% right foot nervus tibialis analysis
 foot_r = struct();
-stimloc = [datadir 'bbciPlot/PzCz_hardconstraint/foot_r_Cz'];
-filepaths = dir(fullfile(BTB.MatDir, '19_07*', '2019_BCIPJ*_foot_r*.mat'));
+filepaths = dir(fullfile(BTB.MatDir, '19_07*', '*foot_r.mat'));
 folders = {filepaths.folder};
 names = {filepaths.name};
-clab = {'Cz'};
-search_ival = [35 45];
-sign = 1;
 n = length(filepaths);
-ivals = csvread('C:\Users\Timo\tubCloud\Shared\1_BCI-PJ\bbciPlot\PzCz_TP200_baseline50\ivals_foot_r.csv', 1,1);
+ivals = csvread([ivaldir 'ivals_foot_r.csv'], 1,1);
 for i = 1:n
     eeg_file= fullfile(folders(i), names(i));
-    [ival_scalps mnt epo] = hard_ssep_analysis_music(eeg_file, clab, search_ival, stimloc, sign);
+    [mnt, epo] = hard_ssep_analysis_music(eeg_file);
     epo.t = round(epo.t,13);
     [leadfield, grid] = load_leadfield(mnt);
     tidx = find(epo.t==ivals(n,1));
@@ -98,30 +90,28 @@ for i = 1:n
     [s,vmax,imax,dip_mom,dip_loc]=haufemusic(patt,leadfield,grid);
 
     fieldname = strjoin(names(i));
-    fieldname =  ['x' fieldname(16:end-4)];
+    fieldname =  fieldname(1:4);
     foot_r.(fieldname) = {s,vmax,imax,dip_mom,dip_loc};
 
+    figure
     plot_scalp(mnt, vmax);
-    saveas(gcf, [fieldname '_foot_r' '.svg'])
+    print([ivaldir fieldname '_foot_r'], '-depsc');
+    %saveas(gcf, [fieldname '_foot_r' '.svg'])
 end
 
-save('foot_r_dipoles.mat', 'foot_r')
+save([savematdir 'foot_r_dipoles.mat'], 'foot_r')
 
 
 %% right pinky finger analysis
 pinkyfinger_r = struct();
-stimloc = [datadir 'bbciPlot/PzCz_hardconstraint/pinkyfinger_r_Pz'];
-filepaths = dir(fullfile(BTB.MatDir, '19_07*', '2019_BCIPJ*pinkiefinger_r*.mat'));
+filepaths = dir(fullfile(BTB.MatDir, '19_07*', '*pinkiefinger_r.mat'));
 folders = {filepaths.folder};
 names = {filepaths.name};
-clab = {'Pz'};
-search_ival = [15 23];
-sign = -1;
 n = length(filepaths);
-ivals = csvread('C:\Users\Timo\tubCloud\Shared\1_BCI-PJ\bbciPlot\PzCz_TP200_baseline50\ivals_pinkiefinger_r.csv', 1,1);
+ivals = csvread([ivaldir 'ivals_pinkiefinger_r.csv'], 1,1);
 for i = 1:n
     eeg_file= fullfile(folders(i), names(i));
-    [ival_scalps mnt epo] = hard_ssep_analysis_music(eeg_file, clab, search_ival, stimloc, sign);
+    [mnt, epo] = hard_ssep_analysis_music(eeg_file);
     epo.t = round(epo.t,13);
     [leadfield, grid] = load_leadfield(mnt);
     tidx = find(epo.t==ivals(n,1));
@@ -131,30 +121,28 @@ for i = 1:n
     [s,vmax,imax,dip_mom,dip_loc]=haufemusic(patt,leadfield,grid);
     
     fieldname = strjoin(names(i));
-    fieldname =  ['x' fieldname(16:end-4)];
+    fieldname =  fieldname(1:4);
     pinkyfinger_r.(fieldname) = {s,vmax,imax,dip_mom,dip_loc};
 
+    figure
     plot_scalp(mnt, vmax);
-    saveas(gcf, [fieldname '_pinkyfinger_r' '.svg'])
+    print([ivaldir fieldname '_pinkyfinger_r'], '-depsc');
+    %saveas(gcf, [fieldname '_pinkyfinger_r' '.svg'])
 end
 
-save('pinkyfinger_r_dipoles.mat', 'pinkyfinger_r')
+save([savematdir 'pinkyfinger_r_dipoles.mat'], 'pinkyfinger_r')
 
 
 %% right index finger analysis
 idxfinger_r = struct();
-stimloc = [datadir 'bbciPlot/PzCz_hardconstraint/idxfinger_r_Pz'];
-filepaths = dir(fullfile(BTB.MatDir, '19_07*', '2019_BCIPJ*idxfinder_r*.mat'));
+filepaths = dir(fullfile(BTB.MatDir, '19_07*', '*idxfinger_r.mat'));
 folders = {filepaths.folder};
 names = {filepaths.name};
-clab = {'Pz'};
-search_ival = [15 23];
-sign = -1;
 n = length(filepaths);
-ivals = csvread('C:\Users\Timo\tubCloud\Shared\1_BCI-PJ\bbciPlot\PzCz_TP200_baseline50\ivals_idxfinger_r.csv', 1,1);
+ivals = csvread([ivaldir 'ivals_idxfinger_r.csv'], 1,1);
 for i = 1:n
     eeg_file= fullfile(folders(i), names(i));
-    [ival_scalps mnt epo] = hard_ssep_analysis_music(eeg_file, clab, search_ival, stimloc, sign);
+    [mnt, epo] = hard_ssep_analysis_music(eeg_file);
     epo.t = round(epo.t,13);
     [leadfield, grid] = load_leadfield(mnt);
     tidx = find(epo.t==ivals(n,1));
@@ -164,11 +152,13 @@ for i = 1:n
     [s,vmax,imax,dip_mom,dip_loc]=haufemusic(patt,leadfield,grid);
     
     fieldname = strjoin(names(i));
-    fieldname =  ['x' fieldname(16:end-4)];
+    fieldname =  fieldname(1:4);
     idxfinger_r.(fieldname) = {s,vmax,imax,dip_mom,dip_loc};
 
+    figure
     plot_scalp(mnt, vmax);
-    saveas(gcf, [fieldname '_idxfinger_r' '.svg'])
+    print([ivaldir fieldname '_idxfinger_r'], '-depsc');
+    % saveas(gcf, [fieldname '_idxfinger_r' '.svg'])
 end
 
-save('idxfinger_r_dipoles.mat', 'idxfinger_r')
+save([savematdir 'idxfinger_r_dipoles.mat'], 'idxfinger_r')

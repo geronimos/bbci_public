@@ -2,7 +2,7 @@ clc
 %% start toolbox
 datadir = '/Users/geronimobergk/TUcloud/1_MSc_Elektrotechnik/1_SS19/1_BCI-PJ/data/';
 tmpdir = '/Users/geronimobergk/TUcloud/1_MSc_Elektrotechnik/1_SS19/1_BCI-PJ/tmp/';
-startup_bbci_toolbox('DataDir',datadir , 'TmpDir',tmpdir);
+startup_bbci_toolbox('DataDir', datadir , 'TmpDir',tmpdir);
 
 % analyze all subjects from m to M
 m = 1;

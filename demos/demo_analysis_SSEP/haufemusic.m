@@ -28,7 +28,7 @@ function [s,vmax,imax,dip_mom,dip_loc]=haufemusic(patt,V,para)
 %
 
 
-[nchan,nx]=size(patt);
+[~, nx]=size(patt);
 [nchan,ng,ndum]=size(V);
 
 if ~isfield(para, 'car')
@@ -43,7 +43,7 @@ else
     H = eye(nchan);
 end
 
-[nchan nchan_old] = size(H);
+[nchan, nchan_old] = size(H);
 
 V = reshape(H*reshape(V, nchan_old, ng*ndum), nchan, ng, ndum);
 
@@ -63,6 +63,8 @@ nd=min(nx,ndum);
  dip_mom=vmax2dipmom(V,imax,vmax);
  if isfield(para, 'grid')
    dip_loc=para.grid(imax,:);
+ elseif isfield(para, 'gridpos')
+   dip_loc=para.gridpos(imax,:);   
  else
    dip_loc=[];
  end
